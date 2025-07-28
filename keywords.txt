@@ -1,0 +1,21 @@
+# Syntax Coloring Map For WiFiCreds
+
+# Datatypes (KEYWORD1)
+WiFiCreds	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+getSSID	KEYWORD2
+getPassword	KEYWORD2
+isValid	KEYWORD2
+getSSIDLength	KEYWORD2
+getPasswordLength	KEYWORD2
+
+# Constants (LITERAL1)
+WIFI_SSID	LITERAL1
+WIFI_PASS	LITERAL1
+
+# Arduino R4 specific (KEYWORD1)
+ARDUINO_BOARD	KEYWORD1
+F_CPU	KEYWORD1
+FLASHEND	KEYWORD1
+RAMEND	KEYWORD1 

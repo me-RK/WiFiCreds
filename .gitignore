@@ -1,0 +1,45 @@
+# Arduino IDE
+*.ino.bak
+*.ino.elf
+*.ino.eep
+*.ino.hex
+*.ino.with_bootloader.bin
+*.ino.with_bootloader.hex
+
+# Build directories
+build/
+Debug/
+Release/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Sensitive files - CRITICAL FOR SECURITY
+# Never commit actual credentials to version control
+credentials.h
+secrets.h
+config.h
+*.key
+*.pem
+*.crt
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp 
