@@ -3,7 +3,7 @@
  * @brief WiFiCreds example for Arduino R4 WiFi
  * @author Rithik Krisna M
  * @version 1.0.0
- * @date 2024
+ * @date 2025
  * 
  * This example demonstrates WiFiCreds usage on Arduino R4 WiFi.
  * The Arduino R4 WiFi has built-in Wi-Fi capabilities and uses the WiFi library.

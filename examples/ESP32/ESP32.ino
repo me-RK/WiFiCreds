@@ -3,7 +3,7 @@
  * @brief WiFiCreds example for ESP32
  * @author Rithik Krisna M
  * @version 1.0.0
- * @date 2024
+ * @date 2025
  * 
  * This example demonstrates WiFiCreds usage on ESP32.
  * The ESP32 has built-in Wi-Fi capabilities and supports both WiFi and WiFiClient libraries.

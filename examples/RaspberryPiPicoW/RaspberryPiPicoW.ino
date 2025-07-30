@@ -3,7 +3,7 @@
  * @brief WiFiCreds example for Raspberry Pi Pico W
  * @author Rithik Krisna M
  * @version 1.0.0
- * @date 2024
+ * @date 2025
  * 
  * This example demonstrates WiFiCreds usage on Raspberry Pi Pico W.
  * The Pico W has built-in Wi-Fi capabilities and uses the WiFi library.

@@ -1,6 +1,31 @@
 # WiFiCreds Library
 
-A secure and modular Arduino library for managing Wi-Fi credentials, designed to separate sensitive data from your main application code.
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/me-RK/WiFiCreds)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Platform](https://img.shields.io/badge/platform-Arduino-orange.svg)](https://www.arduino.cc/)
+[![ESP32](https://img.shields.io/badge/ESP32-Supported-brightgreen.svg)](https://www.espressif.com/)
+[![ESP8266](https://img.shields.io/badge/ESP8266-Supported-brightgreen.svg)](https://www.espressif.com/)
+[![Arduino R4 WiFi](https://img.shields.io/badge/Arduino%20R4%20WiFi-Supported-brightgreen.svg)](https://store.arduino.cc/products/arduino-uno-r4-wifi)
+[![Raspberry Pi Pico W](https://img.shields.io/badge/Raspberry%20Pi%20Pico%20W-Supported-brightgreen.svg)](https://www.raspberrypi.com/products/raspberry-pi-pico/)
+[![Arduino + ESP8266-01](https://img.shields.io/badge/Arduino%20%2B%20ESP8266--01-Supported-brightgreen.svg)](https://www.espressif.com/)
+[![Arduino + ESP32](https://img.shields.io/badge/Arduino%20%2B%20ESP32-Supported-brightgreen.svg)](https://www.espressif.com/)
+
+A secure and modular Arduino library for managing Wi-Fi credentials, designed to prevent accidental exposure of sensitive data when sharing code.
+
+## 🎯 Primary Purpose
+
+**The main objective of this library is simple: to prevent accidental exposure of Wi-Fi credentials when sharing code.**
+
+This library provides **peace of mind** when sharing your Arduino projects. Instead of having your Wi-Fi credentials scattered throughout your code where they might be accidentally committed to version control or shared with others, this library keeps them in a separate, easily manageable file.
+
+### How It Works
+
+When you share your code with clients or collaborators, they have two simple options:
+
+1. **Remove the WiFiCreds library code** and manually add their own credentials directly in their code
+2. **Install the library** and create their own `credentials.h` file with their hardcoded credentials (just like you did)
+
+This approach ensures that your sensitive network information never gets exposed, while still providing a clean, professional way to manage credentials in your projects.
 
 ## Features
 
@@ -43,7 +68,7 @@ The WiFiCreds library is compatible with the following platforms:
 
 ### 1. Configure Your Credentials
 
-Create a `credentials.h` file in your project directory:
+Create a `credentials.h` file in the library's `src` folder:
 
 ```cpp
 #ifndef CREDENTIALS_H
@@ -54,6 +79,8 @@ Create a `credentials.h` file in your project directory:
 
 #endif
 ```
+
+**Important**: The `credentials.h` file must be placed in the `WiFiCreds/src/` directory, not in your project directory. This ensures the credentials are properly included by the library.
 
 ### 2. Basic Usage
 
@@ -134,11 +161,10 @@ size_t passwordLength = WiFiCreds::getPasswordLength();
 
 The library includes several example sketches for different platforms:
 
-### General Examples
+### Getting Started Examples
+- **SimpleExample**: Basic demonstration of accessing and displaying stored credentials without connecting to WiFi
 - **BasicWiFiConnection**: Simple Wi-Fi connection example
 - **WiFiCredsDemo**: Comprehensive example with interactive features
-- **CredentialManager**: Advanced credential management with validation
-- **APModeFallback**: Wi-Fi connection with Access Point fallback
 
 ### Platform-Specific Examples
 - **RaspberryPiPicoW**: Example for Raspberry Pi Pico W with built-in LED indicators
@@ -147,12 +173,47 @@ The library includes several example sketches for different platforms:
 - **ArduinoR4**: Arduino R4 WiFi example with RGB LED indicators and system information
 - **ArduinoESP8266-01**: Arduino with ESP8266-01 module using SoftwareSerial communication
 
+### SimpleExample Walkthrough
+
+The **SimpleExample** demonstrates the most basic usage of the WiFiCreds library:
+
+1. **Purpose**: Tests if your `credentials.h` file is properly configured
+2. **Functionality**: Displays stored credentials without connecting to WiFi
+3. **Use Case**: Perfect for verifying library installation and credential setup
+
+```cpp
+#include <WiFiCreds.h>
+
+void setup() {
+  Serial.begin(115200);
+  
+  // Validate credentials
+  if (!WiFiCreds::isValid()) {
+    Serial.println("ERROR: Invalid Wi-Fi credentials!");
+    return;
+  }
+  
+  // Display credentials
+  Serial.print("SSID: ");
+  Serial.println(WiFiCreds::getSSID());
+  Serial.print("Password: ");
+  Serial.println(WiFiCreds::getPassword());
+}
+```
+
+This example is ideal for:
+- Testing your credential configuration
+- Verifying library installation
+- Understanding basic API usage
+- Debugging credential-related issues
+
 ## Security Best Practices
 
 1. **Never commit credentials**: Add `credentials.h` to your `.gitignore`
 2. **Use strong passwords**: Ensure your Wi-Fi password is secure
 3. **Production deployment**: Consider using secure storage methods for production
 4. **Regular updates**: Keep your credentials updated and secure
+5. **Share safely**: When sharing code, ensure `credentials.h` is excluded
 
 ## Future Enhancements
 

@@ -3,7 +3,7 @@
  * @brief WiFiCreds example for Arduino with ESP8266-01 module
  * @author Rithik Krisna M
  * @version 1.0.0
- * @date 2024
+ * @date 2025
  * 
  * This example demonstrates WiFiCreds usage with Arduino and ESP8266-01 module.
  * The ESP8266-01 communicates with Arduino via SoftwareSerial.

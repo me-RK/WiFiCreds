@@ -3,7 +3,7 @@
  * @brief WiFiCreds example for ESP8266
  * @author Rithik Krisna M
  * @version 1.0.0
- * @date 2024
+ * @date 2025
  * 
  * This example demonstrates WiFiCreds usage on ESP8266.
  * The ESP8266 has built-in Wi-Fi capabilities and uses the ESP8266WiFi library.

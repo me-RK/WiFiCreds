@@ -3,7 +3,7 @@
  * @brief Main header file for the WiFiCreds library
  * @author Rithik Krisna M
  * @version 1.0.0
- * @date 2024
+ * @date 2025
  * 
  * This library provides a secure and modular way to manage Wi-Fi credentials
  * in Arduino projects, separating sensitive data from the main application code.

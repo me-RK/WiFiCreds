@@ -3,7 +3,7 @@
  * @brief Implementation file for the WiFiCreds library
  * @author Rithik Krisna M
  * @version 1.0.0
- * @date 2024
+ * @date 2025
  */
 
 #include "WiFiCreds.h"
