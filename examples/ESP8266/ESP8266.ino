@@ -2,7 +2,7 @@
  * @file ESP8266.ino
  * @brief WiFiCreds example for ESP8266
  * @author Rithik Krisna M
- * @version 1.0.0
+ * @version 1.0.2
  * @date 2025
  * 
  * This example demonstrates WiFiCreds usage on ESP8266.

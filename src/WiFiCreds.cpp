@@ -2,7 +2,7 @@
  * @file WiFiCreds.cpp
  * @brief Implementation file for the WiFiCreds library
  * @author Rithik Krisna M
- * @version 1.0.0
+ * @version 1.0.2
  * @date 2025
  */
 

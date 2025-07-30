@@ -2,7 +2,7 @@
  * @file ArduinoR4.ino
  * @brief WiFiCreds example for Arduino R4 WiFi
  * @author Rithik Krisna M
- * @version 1.0.0
+ * @version 1.0.2
  * @date 2025
  * 
  * This example demonstrates WiFiCreds usage on Arduino R4 WiFi.

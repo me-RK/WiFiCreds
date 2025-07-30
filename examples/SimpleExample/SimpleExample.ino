@@ -2,7 +2,7 @@
  * @file SimpleExample.ino
  * @brief Simple example demonstrating WiFiCreds library usage
  * @author Rithik Krisna M
- * @version 1.0.0
+ * @version 1.0.2
  * @date 2025
  * 
  * This example demonstrates the most basic usage of the WiFiCreds library.
@@ -26,7 +26,7 @@ void setup() {
   
   Serial.println("=== WiFiCreds Simple Example ===");
   Serial.println("Author: Rithik Krisna M");
-  Serial.println("Version: 1.0.0");
+  Serial.println("Version: 1.0.2");
   Serial.println();
   
   // Validate credentials before accessing them
