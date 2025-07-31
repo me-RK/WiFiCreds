@@ -35,7 +35,7 @@ This approach ensures that your sensitive network information never gets exposed
 - 🔄 **Automatic Fallback**: Invalid names automatically fall back to default
 - 📚 **Easy Integration**: Simple static methods for accessing credentials
 - 🛡️ **Validation**: Built-in credential validation
-- 📖 **Well Documented**: Comprehensive Doxygen documentation
+- 📖 **Well Documented**: Comprehensive [Doxygen](https://me-rk.github.io/WiFiCreds/) documentation
 - 🔧 **Modular Design**: Easy to extend for different storage methods
 - 🎯 **Production Ready**: Follows Arduino library best practices
 
