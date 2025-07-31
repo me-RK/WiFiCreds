@@ -2,8 +2,8 @@
 
 # Project information
 PROJECT_NAME           = "WiFiCreds Library"
-PROJECT_NUMBER         = 1.0.2
-PROJECT_BRIEF          = "A secure and modular Arduino library for managing Wi-Fi credentials"
+PROJECT_NUMBER         = 1.0.3
+PROJECT_BRIEF          = "A secure and modular Arduino library for managing multiple Wi-Fi credentials"
 OUTPUT_DIRECTORY       = docs
 CREATE_SUBDIRS         = NO
 ALLOW_UNICODE_NAMES    = NO

@@ -2,7 +2,7 @@
  * @file ESP32.ino
  * @brief WiFiCreds example for ESP32
  * @author Rithik Krisna M
- * @version 1.0.2
+ * @version 1.0.3
  * @date 2025
  * 
  * This example demonstrates WiFiCreds usage on ESP32.
@@ -23,6 +23,7 @@ const unsigned long SCAN_INTERVAL = 60000; // Scan for networks every minute
 // Global variables
 unsigned long lastScanTime = 0;
 bool wifiConnected = false;
+const char* currentCredentialName = nullptr; // Track which credential set we're using
 
 void setup() {
   // Initialize serial communication
@@ -40,17 +41,26 @@ void setup() {
   Serial.println("=== ESP32 WiFiCreds Example ===");
   Serial.println();
   
-  // Validate credentials
-  if (!WiFiCreds::isValid()) {
-    Serial.println("ERROR: Invalid Wi-Fi credentials!");
-    Serial.println("Please check your credentials.h file.");
+  // Check if credentials are available
+  size_t credentialCount = WiFiCreds::getCredentialCount();
+  
+  if (credentialCount == 0) {
+    Serial.println("ERROR: No credential sets found!");
+    Serial.println("Please create a credentials.h file with CREDENTIAL_SETS array.");
     blinkError();
     return;
   }
   
-  Serial.println("Credentials validated successfully.");
+  Serial.print("Found ");
+  Serial.print(credentialCount);
+  Serial.println(" credential set(s).");
+  
+  // Use default credentials (first set)
+  currentCredentialName = nullptr; // Use default
+  Serial.println("Using default credentials:");
   Serial.print("SSID: ");
   Serial.println(WiFiCreds::getSSID());
+  
   Serial.print("SSID Length: ");
   Serial.println(WiFiCreds::getSSIDLength());
   Serial.print("Password Length: ");
@@ -145,11 +155,15 @@ void configureWiFi() {
  */
 bool connectToWiFi() {
   Serial.println("Connecting to WiFi...");
+  
+  const char* ssid = WiFiCreds::getSSID(currentCredentialName);
+  const char* password = WiFiCreds::getPassword(currentCredentialName);
+  
   Serial.print("Network: ");
-  Serial.println(WiFiCreds::getSSID());
+  Serial.println(ssid);
   
   // Start connection
-  WiFi.begin(WiFiCreds::getSSID(), WiFiCreds::getPassword());
+  WiFi.begin(ssid, password);
   
   // Wait for connection with timeout
   unsigned long startTime = millis();
@@ -199,8 +213,10 @@ void scanWiFiNetworks() {
     
     // Check if our target network is in range
     bool targetFound = false;
+    const char* targetSSID = WiFiCreds::getSSID(currentCredentialName);
+    
     for (int i = 0; i < n; ++i) {
-      if (WiFi.SSID(i) == WiFiCreds::getSSID()) {
+      if (WiFi.SSID(i) == targetSSID) {
         Serial.print("Target network found! Signal strength: ");
         Serial.print(WiFi.RSSI(i));
         Serial.println(" dBm");

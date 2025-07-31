@@ -1,6 +1,6 @@
 # WiFiCreds Library
 
-[![Version](https://img.shields.io/badge/version-1.0.2-blue.svg)](https://github.com/me-RK/WiFiCreds)
+[![Version](https://img.shields.io/badge/version-1.0.3-blue.svg)](https://github.com/me-RK/WiFiCreds)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Arduino-orange.svg)](https://www.arduino.cc/)
 [![ESP32](https://img.shields.io/badge/ESP32-Supported-brightgreen.svg)](https://www.espressif.com/)
@@ -30,6 +30,9 @@ This approach ensures that your sensitive network information never gets exposed
 ## Features
 
 - 🔒 **Secure Credential Management**: Keeps Wi-Fi credentials separate from main code
+- 🔑 **Multiple Credential Sets**: Support for named credential sets (home, office, etc.)
+- 🎯 **Default Behavior**: First credential set is always used as default
+- 🔄 **Automatic Fallback**: Invalid names automatically fall back to default
 - 📚 **Easy Integration**: Simple static methods for accessing credentials
 - 🛡️ **Validation**: Built-in credential validation
 - 📖 **Well Documented**: Comprehensive Doxygen documentation
@@ -68,19 +71,45 @@ The WiFiCreds library is compatible with the following platforms:
 
 ### 1. Configure Your Credentials
 
-Create a `credentials.h` file in the library's `src` folder:
+Create a `credentials.h` file in the library's `src` folder with multiple credential sets:
 
 ```cpp
 #ifndef CREDENTIALS_H
 #define CREDENTIALS_H
 
-#define WIFI_SSID "YourNetworkName"
-#define WIFI_PASS "YourSecurePassword"
+// Multiple credential sets
+const CredentialSet CREDENTIAL_SETS[] = {
+    // First set is always the default
+    {
+        .name = "home",
+        .ssid = "MyHomeWiFi",
+        .password = "HomePassword123"
+    },
+    {
+        .name = "office",
+        .ssid = "OfficeNetwork", 
+        .password = "OfficePassword456"
+    },
+    {
+        .name = "guest",
+        .ssid = "GuestWiFi",
+        .password = "GuestPassword789"
+    },
+    // Terminator entry - must be last!
+    {
+        .name = nullptr,
+        .ssid = nullptr,
+        .password = nullptr
+    }
+};
 
 #endif
 ```
 
-**Important**: The `credentials.h` file must be placed in the `WiFiCreds/src/` directory, not in your project directory. This ensures the credentials are properly included by the library.
+**Important**: 
+- The `credentials.h` file must be placed in the `WiFiCreds/src/` directory
+- The **first credential set** is always used as the default
+- Invalid names automatically fall back to the default set
 
 ### 2. Basic Usage
 
@@ -91,17 +120,40 @@ Create a `credentials.h` file in the library's `src` folder:
 void setup() {
   Serial.begin(115200);
   
-  // Validate credentials before use
-  if (!WiFiCreds::isValid()) {
-    Serial.println("Error: Invalid Wi-Fi credentials!");
-    return;
-  }
-  
-  // Connect to Wi-Fi
+  // Use default credentials (first set)
   WiFi.begin(WiFiCreds::getSSID(), WiFiCreds::getPassword());
   
-  Serial.print("Connecting to ");
+  Serial.print("Connecting to default network: ");
   Serial.println(WiFiCreds::getSSID());
+  
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  
+  Serial.println("\nConnected to Wi-Fi!");
+}
+
+void loop() {
+  // Your main code here
+}
+```
+
+#### Using Specific Credential Sets
+```cpp
+#include <WiFiCreds.h>
+#include <WiFi.h>
+
+void setup() {
+  Serial.begin(115200);
+  
+  // Use specific credential set
+  WiFi.begin(WiFiCreds::getSSID("home"), WiFiCreds::getPassword("home"));
+  Serial.print("Connecting to home network: ");
+  Serial.println(WiFiCreds::getSSID("home"));
+  
+  // Invalid names automatically fall back to default
+  WiFi.begin(WiFiCreds::getSSID("invalid"), WiFiCreds::getPassword("invalid")); // Uses default
   
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
@@ -118,43 +170,82 @@ void loop() {
 
 ## API Reference
 
-### Static Methods
+### Core Methods
 
-#### `getSSID()`
-Returns the Wi-Fi SSID as a null-terminated string.
+#### `getSSID(const char* name = nullptr)`
+Returns the Wi-Fi SSID for a specific credential set or default if no name provided.
 
 ```cpp
-const char* ssid = WiFiCreds::getSSID();
+const char* ssid = WiFiCreds::getSSID();        // Default (first set)
+const char* ssid = WiFiCreds::getSSID("home");  // Specific set
 ```
 
-#### `getPassword()`
-Returns the Wi-Fi password as a null-terminated string.
+#### `getPassword(const char* name = nullptr)`
+Returns the Wi-Fi password for a specific credential set or default if no name provided.
 
 ```cpp
-const char* password = WiFiCreds::getPassword();
+const char* password = WiFiCreds::getPassword();        // Default (first set)
+const char* password = WiFiCreds::getPassword("home");  // Specific set
 ```
 
-#### `isValid()`
-Validates that both SSID and password are properly configured.
+#### `isValid(const char* name = nullptr)`
+Validates that both SSID and password for a specific set are properly configured.
 
 ```cpp
-if (WiFiCreds::isValid()) {
-  // Credentials are valid
+if (WiFiCreds::isValid()) {           // Validate default
+  // Default credentials are valid
+}
+if (WiFiCreds::isValid("home")) {     // Validate specific set
+  // Home credentials are valid
 }
 ```
 
-#### `getSSIDLength()`
-Returns the length of the SSID string (excluding null terminator).
+#### `getSSIDLength(const char* name = nullptr)`
+Returns the length of the SSID string for a specific credential set.
 
 ```cpp
-size_t ssidLength = WiFiCreds::getSSIDLength();
+size_t ssidLength = WiFiCreds::getSSIDLength();        // Default
+size_t ssidLength = WiFiCreds::getSSIDLength("home");  // Specific set
 ```
 
-#### `getPasswordLength()`
-Returns the length of the password string (excluding null terminator).
+#### `getPasswordLength(const char* name = nullptr)`
+Returns the length of the password string for a specific credential set.
 
 ```cpp
-size_t passwordLength = WiFiCreds::getPasswordLength();
+size_t passwordLength = WiFiCreds::getPasswordLength();        // Default
+size_t passwordLength = WiFiCreds::getPasswordLength("home");  // Specific set
+```
+
+### Management Methods
+
+#### `getCredentialCount()`
+Returns the total number of available credential sets.
+
+```cpp
+size_t count = WiFiCreds::getCredentialCount();
+```
+
+#### `getCredentialName(size_t index)`
+Returns the name of a credential set by index.
+
+```cpp
+const char* name = WiFiCreds::getCredentialName(0); // First credential set
+```
+
+#### `hasCredential(const char* name)`
+Checks if a credential set with the given name exists.
+
+```cpp
+if (WiFiCreds::hasCredential("home")) {
+  // Home credentials exist
+}
+```
+
+#### `getDefaultName()`
+Returns the name of the default credential set (first set).
+
+```cpp
+const char* defaultName = WiFiCreds::getDefaultName();
 ```
 
 ## Examples
@@ -175,11 +266,11 @@ The library includes several example sketches for different platforms:
 
 ### SimpleExample Walkthrough
 
-The **SimpleExample** demonstrates the most basic usage of the WiFiCreds library:
+The **SimpleExample** demonstrates the basic usage of the WiFiCreds library:
 
 1. **Purpose**: Tests if your `credentials.h` file is properly configured
-2. **Functionality**: Displays stored credentials without connecting to WiFi
-3. **Use Case**: Perfect for verifying library installation and credential setup
+2. **Functionality**: Displays default credentials and shows usage procedure
+3. **Use Case**: Perfect for verifying library installation and learning how to use the library
 
 ```cpp
 #include <WiFiCreds.h>
@@ -187,17 +278,19 @@ The **SimpleExample** demonstrates the most basic usage of the WiFiCreds library
 void setup() {
   Serial.begin(115200);
   
-  // Validate credentials
-  if (!WiFiCreds::isValid()) {
-    Serial.println("ERROR: Invalid Wi-Fi credentials!");
-    return;
-  }
+  // Check if credentials are available
+  size_t count = WiFiCreds::getCredentialCount();
   
-  // Display credentials
-  Serial.print("SSID: ");
-  Serial.println(WiFiCreds::getSSID());
-  Serial.print("Password: ");
-  Serial.println(WiFiCreds::getPassword());
+  if (count > 0) {
+    // Display default credentials
+    Serial.print("Default: ");
+    Serial.println(WiFiCreds::getSSID());
+    
+    // Show usage procedure
+    Serial.println("Usage examples:");
+    Serial.println("WiFi.begin(WiFiCreds::getSSID(), WiFiCreds::getPassword());");
+    Serial.println("WiFi.begin(WiFiCreds::getSSID(\"home\"), WiFiCreds::getPassword(\"home\"));");
+  }
 }
 ```
 
@@ -206,6 +299,8 @@ This example is ideal for:
 - Verifying library installation
 - Understanding basic API usage
 - Debugging credential-related issues
+- Learning the usage procedure
+- Seeing the credentials.h file format
 
 ## Security Best Practices
 
@@ -240,7 +335,7 @@ This library is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Version History
 
-- **v1.0.2**: Enhanced version with improved documentation and examples
+- **v1.0.3**: Simplified version with multiple credential sets, automatic fallback, and clean API design
 - **v1.0.0**: Initial release with basic credential management
 
 ## Support
