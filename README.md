@@ -334,8 +334,16 @@ This library is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 **Rithik Krisna M** ([@me-RK](https://github.com/me-RK))
 
 ## Version History
-
-- **v1.0.4**: Simplified version with multiple credential sets, automatic fallback, and clean API design
+- **v1.0.4**: 
+  ```
+  🔧 Fixed multiple credential support issues
+  🔄 Improved fallback logic for invalid credential names
+  📝 Added proper string.h includes and safety checks
+  🛡️ Enhanced memory safety with bounds checking
+  ✅ Added comprehensive test examples
+  📖 Updated documentation with troubleshooting guide
+  ```
+- **v1.0.3**: Simplified version with multiple credential sets, automatic fallback, and clean API design
 - **v1.0.0**: Initial release with basic credential management
 
 ## Support
