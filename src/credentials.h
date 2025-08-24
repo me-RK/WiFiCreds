@@ -2,7 +2,7 @@
  * @file credentials.h
  * @brief Wi-Fi credentials configuration file
  * @author Rithik Krisna M
- * @version 1.0.3
+ * @version 1.0.4
  * @date 2025
  * 
  * This file contains your Wi-Fi credentials for the WiFiCreds library.

@@ -2,7 +2,7 @@
  * @file WiFiCreds.h
  * @brief Main header file for the WiFiCreds library
  * @author Rithik Krisna M
- * @version 1.0.3
+ * @version 1.0.4
  * @date 2025
  * 
  * This library provides a secure and modular way to manage multiple Wi-Fi credentials

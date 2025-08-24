@@ -2,22 +2,35 @@
  * @file WiFiCreds.cpp
  * @brief Implementation file for the WiFiCreds library
  * @author Rithik Krisna M
- * @version 1.0.3
+ * @version 1.0.4
  * @date 2025
  */
 
 #include "WiFiCreds.h"
 #include "credentials.h" // Contains actual SSID and password definitions
+#include <string.h>     // Required for strcmp and strlen
 
 // ===== CORE CREDENTIAL METHODS =====
 
 const char* WiFiCreds::getSSID(const char* name) {
     const CredentialSet* cred = (name != nullptr) ? findCredential(name) : getDefaultCredential();
+    
+    // If named credential not found, fall back to default
+    if (cred == nullptr && name != nullptr) {
+        cred = getDefaultCredential();
+    }
+    
     return (cred != nullptr) ? cred->ssid : nullptr;
 }
 
 const char* WiFiCreds::getPassword(const char* name) {
     const CredentialSet* cred = (name != nullptr) ? findCredential(name) : getDefaultCredential();
+    
+    // If named credential not found, fall back to default
+    if (cred == nullptr && name != nullptr) {
+        cred = getDefaultCredential();
+    }
+    
     return (cred != nullptr) ? cred->password : nullptr;
 }
 
@@ -51,23 +64,23 @@ size_t WiFiCreds::getPasswordLength(const char* name) {
 // ===== CREDENTIAL MANAGEMENT METHODS =====
 
 size_t WiFiCreds::getCredentialCount() {
-    #ifdef CREDENTIAL_SETS
-        size_t count = 0;
-        while (CREDENTIAL_SETS[count].name != nullptr) {
-            count++;
-        }
-        return count;
-    #else
-        return 0;
-    #endif
+    size_t count = 0;
+    
+    // Count entries until we hit the terminator (where name is nullptr)
+    while (count < 1000 && CREDENTIAL_SETS[count].name != nullptr) { // Safety limit to prevent infinite loops
+        count++;
+    }
+    
+    return count;
 }
 
 const char* WiFiCreds::getCredentialName(size_t index) {
-    #ifdef CREDENTIAL_SETS
-        if (index < getCredentialCount()) {
-            return CREDENTIAL_SETS[index].name;
-        }
-    #endif
+    size_t totalCount = getCredentialCount();
+    
+    if (index < totalCount) {
+        return CREDENTIAL_SETS[index].name;
+    }
+    
     return nullptr;
 }
 
@@ -89,23 +102,19 @@ const CredentialSet* WiFiCreds::findCredential(const char* name) {
         return nullptr;
     }
     
-    #ifdef CREDENTIAL_SETS
-        size_t count = getCredentialCount();
-        for (size_t i = 0; i < count; i++) {
-            if (strcmp(CREDENTIAL_SETS[i].name, name) == 0) {
-                return &CREDENTIAL_SETS[i];
-            }
+    size_t count = getCredentialCount();
+    for (size_t i = 0; i < count; i++) {
+        if (strcmp(CREDENTIAL_SETS[i].name, name) == 0) {
+            return &CREDENTIAL_SETS[i];
         }
-    #endif
+    }
     
     return nullptr;
 }
 
 const CredentialSet* WiFiCreds::getDefaultCredential() {
-    #ifdef CREDENTIAL_SETS
-        if (getCredentialCount() > 0) {
-            return &CREDENTIAL_SETS[0];
-        }
-    #endif
+    if (getCredentialCount() > 0) {
+        return &CREDENTIAL_SETS[0];
+    }
     return nullptr;
-} 
+}

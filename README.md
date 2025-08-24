@@ -1,6 +1,6 @@
 # WiFiCreds Library
 
-[![Version](https://img.shields.io/badge/version-1.0.3-blue.svg)](https://github.com/me-RK/WiFiCreds)
+[![Version](https://img.shields.io/badge/version-1.0.4-blue.svg)](https://github.com/me-RK/WiFiCreds)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Arduino-orange.svg)](https://www.arduino.cc/)
 [![ESP32](https://img.shields.io/badge/ESP32-Supported-brightgreen.svg)](https://www.espressif.com/)
@@ -335,7 +335,7 @@ This library is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Version History
 
-- **v1.0.3**: Simplified version with multiple credential sets, automatic fallback, and clean API design
+- **v1.0.4**: Simplified version with multiple credential sets, automatic fallback, and clean API design
 - **v1.0.0**: Initial release with basic credential management
 
 ## Support

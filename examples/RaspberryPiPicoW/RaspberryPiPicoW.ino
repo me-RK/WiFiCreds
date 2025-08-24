@@ -2,7 +2,7 @@
  * @file RaspberryPiPicoW.ino
  * @brief WiFiCreds example for Raspberry Pi Pico W
  * @author Rithik Krisna M
- * @version 1.0.3
+ * @version 1.0.4
  * @date 2025
  * 
  * This example demonstrates WiFiCreds usage on Raspberry Pi Pico W.

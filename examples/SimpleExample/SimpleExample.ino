@@ -2,7 +2,7 @@
  * @file SimpleExample.ino
  * @brief Simple example demonstrating WiFiCreds library usage
  * @author Rithik Krisna M
- * @version 1.0.3
+ * @version 1.0.4
  * @date 2025
  * 
  * This example demonstrates how to use the WiFiCreds library with multiple
@@ -30,7 +30,7 @@
    
    Serial.println("=== WiFiCreds SimpleExample ===");
    Serial.println("Author: Rithik Krisna M");
-   Serial.println("Version: 1.0.3");
+   Serial.println("Version: 1.0.4");
    Serial.println();
    
    // Check if credentials are available
